@@ -22,6 +22,7 @@ package sfapi.commands
 {
 	import flash.events.Event;
 	import mx.events.ListEvent;
+	import mx.events.MenuEvent;
 	import sfapi.core.AppTreeParser;
 	import sfapi.core.ErrorMessages;
 	import sfapi.core.ReferenceData;
@@ -631,6 +632,85 @@ package sfapi.commands
 			}
 			return result;
 		}
+
+        public function doFlexClickMenuItem(id:String, value:String):String
+		{
+			var args:Array = value.split(",");
+			var colIndex:String = args[0];
+			var itemText:String = args[1];
+
+			return rawFlexClickMenuItem(id, colIndex, itemText);
+		}
+
+		public function rawFlexClickMenuItem(datagridId:String, colIndex:String, itemText:String):String
+        		{
+        			var child:Object = appTreeParser.getElement(datagridId);
+        			if(child == null)
+        			{
+        				return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [datagridId]);
+        			}
+
+        			// Assumes the DataGrid has only one ListBaseContentHolder
+        			var dgContentList:Object = Tools.getChildrenOfTypeFromContainer(child,
+        					ReferenceData.LISTBASECONTENTHOLDER_DESCRIPTION)[0];
+
+        			for (var j:int=0;j< dgContentList.listItems.length;j++)
+        			{
+                        var array:Array = dgContentList.listItems[j];
+        				var item:Object = array[int(colIndex)];
+        				var event:MenuEvent = new MenuEvent(MenuEvent.ITEM_CLICK);
+        				if(item.hasOwnProperty("numChildren"))
+        				{
+        					for(var i:int = 0;i < item.numChildren;i++)
+        					{
+        						if((item.getChildAt(i).hasOwnProperty("text") && (item.getChildAt(i).text == itemText)) ||
+        								(item.getChildAt(i).hasOwnProperty("label") && (item.getChildAt(i).label == itemText)))
+        						{
+        							//return String(item.getChildAt(i).dispatchEvent(new MenuEvent(MenuEvent.ITEM_CLICK)));
+        							doFlexSelectDataGridIndex(datagridId, j+"");
+                                if(datagridId.indexOf("CMnScrollableArrowMenu") > 0)
+                                {
+                                    event.index = int(j);
+                                }
+                                else if(datagridId == "className:Menu")
+                                {
+                                    if(itemText == "New Row")
+                                    {
+                                        event.item.value = "SINGLE";
+                                    }
+                                    else
+                                    {
+                                        event.item.value = "MULTIPLE";
+                                    }
+                                }
+        							return String(child.dispatchEvent(event));
+        						}
+        					}
+        				}
+        				if((item.hasOwnProperty("text") && (item.text == itemText)) ||
+        						(item.hasOwnProperty("label") && (item.label == itemText)))
+        				{
+        				    doFlexSelectDataGridIndex(datagridId, j+"");
+                            if(datagridId.indexOf("CMnScrollableArrowMenu") > 0)
+                                {
+                                    event.index = int(j);
+                                }
+                                else if(datagridId == "className:Menu")
+                                {
+                                    if(itemText == "New Row")
+                                    {
+                                        event.item.value = "SINGLE";
+                                    }
+                                    else
+                                    {
+                                        event.item.value = "MULTIPLE";
+                                    }
+                                }
+        					return String(child.dispatchEvent(event));
+        				}
+        			}
+        			return ErrorMessages.getError(ErrorMessages.ERROR_TEXT_NOT_FOUND, [itemText,colIndex]);
+        		}
 		
 	}
 }

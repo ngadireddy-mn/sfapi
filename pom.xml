@@ -83,7 +83,7 @@
     <dependency>
       <groupId>com.adobe.flex.framework</groupId>
       <artifactId>playerglobal</artifactId>
-      <classifier>10</classifier>
+      <classifier>10.2</classifier>
       <type>swc</type>
       <version>${flexcompiler-version}</version>
     </dependency>
@@ -107,7 +107,7 @@
 	</dependency>
   </dependencies>
   <properties>
-    <flexmojos-maven-plugin.version>3.6.1</flexmojos-maven-plugin.version>
-    <flexcompiler-version>3.6.0.16995</flexcompiler-version>
+      <flexmojos-maven-plugin.version>4.2-beta</flexmojos-maven-plugin.version>
+      <flexcompiler-version>4.5.1.21328</flexcompiler-version>
   </properties>
 </project>

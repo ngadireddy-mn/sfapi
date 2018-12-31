@@ -231,7 +231,7 @@ package sfapi.commands
 			catch (e:Error) {
 				result = "ERROR: Widget '" + id + "': " + e.message;
 			}
-			
+
 			return result;
 		}
 	}

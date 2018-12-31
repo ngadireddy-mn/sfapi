@@ -38,7 +38,12 @@ package sfapi.core
 		public static const CHECKBOX_DESCRIPTION:String = "mx.controls::CheckBox";
 		public static const TRI_CHECKBOX_DESCRIPTION:String = "::ThreeStateCheckBox";
 		public static const RADIOBUTTON_DESCRIPTION:String = "mx.controls::RadioButton";
-		public static const ACCORDION_DESCRIPTION:String = "mx.containers::Accordion";		
+		public static const BUTTON_DESCRIPTION:String = "mx.controls::Button";
+		public static const COMBO_BOX_DESCRIPTION:String = "com.modeln.mx.controls::CMnComboBox";
+		public static const CMNBUTTON_DESCRIPTION:String = "com.modeln.mx.controls::CMnButton";
+		public static const CMNPOPUP_BUTTON_DESCRIPTION:String = "com.modeln.mx.controls::CMnPopUpButton";
+		public static const ADVANCED_COMBO_BOX:String = "com.modeln.uix.controls::CMnAdvancedComboBox";
+		public static const ACCORDION_DESCRIPTION:String = "mx.containers::Accordion";
 		public static const BUTTONBAR_DESCRIPTION:String = "mx.controls::ButtonBar";
 		public static const LINKBAR_DESCRIPTION:String = "mx.controls::LinkBar";
 		public static const TOGGLEBUTTONBAR_DESCRIPTION:String = "mx.controls::ToggleButtonBar";

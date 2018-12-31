@@ -26,6 +26,7 @@ package sfapi.commands
 	import sfapi.core.ErrorMessages;
 	import sfapi.core.ReferenceData;
 	import sfapi.core.Tools;
+	import mx.events.MenuEvent;
 	
 	public class ClickCommands extends AbstractCommand
 	{
@@ -54,7 +55,7 @@ package sfapi.commands
 			if(! args) 
 			{
 
-				return String(child.dispatchEvent(new MouseEvent(MouseEvent.CLICK)));	
+				return String(child.dispatchEvent(new MouseEvent(MouseEvent.CLICK)));
 			}
 
 			// for an Accordion control
@@ -303,6 +304,7 @@ package sfapi.commands
 			
 			return rawFlexClickDataGridItem(id, colIndex, itemText);
 		}
+
 		
 		/**
 		 * Clicks a Component based on its label at a given column index.

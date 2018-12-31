@@ -29,6 +29,7 @@ import mx.controls.dataGridClasses.DataGridColumn;
 import mx.controls.listClasses.IListItemRenderer;
 import mx.events.DataGridEvent;
 import mx.events.ListEvent;
+import mx.events.MenuEvent;
 import mx.collections.IHierarchicalCollectionViewCursor;
 
 import mx.utils.StringUtil;
@@ -218,7 +219,7 @@ public class DataGridCommands extends AbstractCommand
 			}
 			return result;
 		}
-		
+
 		/**
 		 * Returns the row index of a given label in a certain field on a grid
 		 * <br/>
@@ -243,8 +244,127 @@ public class DataGridCommands extends AbstractCommand
 			var id:String = args[0];
 			var fieldName:String = args[1];
 			var value:String = args[2];
-			
+
 			return rawFlexDataGridRowIndexForFieldLabel(id, fieldName, value);
+		}
+
+        public function getFlexDataGridRowDataForRowIndex(target:String, rowIdx:String):String
+		{
+			var id:String = target;
+			var rowIndex:int = parseInt(rowIdx);
+			return rawFlexDataGridRowDataForRowIndex(id, rowIndex);
+		}
+
+        public function rawFlexDataGridRowDataForRowIndex(id:String, rowIndex:int):String
+		{
+			var result:Array = new Array();
+			var itemSeparator:String = "##ITEM##";
+			try
+			{
+				var widget:Object = appTreeParser.getWidgetById(id);
+				var provider:Object = widget.dataProvider;
+				var rowItem:Object = provider[rowIndex];
+				for each (var column:Object in widget.columns)
+				{
+                    var item:String = column.itemToLabel(rowItem);
+                    if (!item)
+                    {
+                        item = " ";
+                    }
+                    result.push(item);
+				}
+			}
+			catch (e:Error)
+			{
+				return "ERROR: Widget '" + id + "': " + e.message;
+			}
+			return result.join(itemSeparator);
+		}
+
+
+        /**
+		 * Returns the row index of given labels in fields on a grid (custom code)
+		 * <br/>
+		 * Command: getFlexDataGridRowIndexForColumns
+		 * Target:  myGridControl,columnNames,columnValues
+		 * <br/>
+		 * Breakdown:
+		 * <br/>
+		 * Command: <command>
+		 * target:  <grid id>, <fieldName>,<value>
+		 * value:  args
+		 * <br/>
+		 * All fields are compulsory
+		 * <br/>
+		 * @param  target  takes the form "<id>"
+		 * @param  args takes the form "<fieldName1>|<fieldName2>...,<value1>|<value2>..."
+		 * @return  a string of row index for cell containing the label
+		 */
+        public function getFlexDataGridRowIndexForColumns(target:String, value:String):String
+		{
+			var id:String = target;
+			var args:Array = value.split(",");
+			var columnNames:String = args[0];
+			var columnValues:String = args[1];
+			return rawFlexDataGridRowIndexForMatchedColumnValues(id, columnNames, columnValues);
+		}
+
+        public function rawFlexDataGridRowIndexForMatchedColumnValues(id:String, columnNames:String, columnValues:String):String
+		{
+			var names:Array = columnNames.split('|');
+			var data:Array = columnValues.split('|');
+			var columnObjects:Array = new Array();
+			var result:String;
+			var index:int = -1;
+			try
+			{
+				var widget:Object = appTreeParser.getWidgetById(id);
+				for each (var columnName:String in names){
+					for each (var candidate:Object in widget.columns)
+					{
+						if (candidate.dataField == columnName)
+						{
+							columnObjects.push(candidate);
+							break;
+						}
+					}
+				}
+				if(columnObjects.length == 0)
+				{
+					// todo use standard err
+					throw new Error("No columns for fields found");
+				}
+				var rowIndex:int = 0;
+				var provider:Object = widget.dataProvider;
+				for each(var row:Object in provider)
+				{
+					var indexValue:int = 0;
+					var matchedColumnIndex:int = 0;
+					for each(var columnObject:Object in columnObjects){
+						var value:String = columnObject.itemToLabel(row);
+						if (value == data[indexValue])
+						{
+							matchedColumnIndex++;
+						}
+						indexValue++;
+					}
+					if(matchedColumnIndex === columnObjects.length){
+						index = rowIndex;
+						break;
+					}
+					else
+					{
+						rowIndex++;
+					}
+				}
+				result = String(index);
+			}
+			catch (e:Error)
+			{
+				// todo use standard err
+				result = "ERROR: Widget '" + id + "': " + e.message;
+			}
+			return result;
 		}
 
 		/**
@@ -670,6 +790,7 @@ public class DataGridCommands extends AbstractCommand
 
 		}
 
+
 		/**
 		 * Return the component in a datagrid cell
 		 * @param  id  - Data grid id
@@ -742,7 +863,7 @@ public class DataGridCommands extends AbstractCommand
 			}
 			return ErrorMessages.getError(ErrorMessages.ERROR_NO_CHILD_UICOMPONENT, [datagridId,rowIndex,columnIndex]);
 		}
-		
+
 		/**
 		 * Returns the data values of a column. The values are separated with "#;#"
 		 * @param id the id of the Data Grid

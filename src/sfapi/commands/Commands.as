@@ -85,10 +85,10 @@ package sfapi.commands
 			{
 				// Get commands
 
-				ExternalInterface.addCallback("getFlexSelectedItemAtIndex", 
+				ExternalInterface.addCallback("getFlexSelectedItemAtIndex",
 						selectCommands.getFlexSelectedItemAtIndex);
-						
-				ExternalInterface.addCallback("getFlexNumSelectedItems", 
+
+				ExternalInterface.addCallback("getFlexNumSelectedItems",
 						selectCommands.getFlexNumSelectedItems);
 						
 				ExternalInterface.addCallback("getFlexVisible",
@@ -186,6 +186,12 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("getFlexDataGridRowIndexForFieldLabel",
 						dataGridCommands.getFlexDataGridRowIndexForFieldLabel);
+
+				ExternalInterface.addCallback("getFlexDataGridRowIndexForColumns",
+						dataGridCommands.getFlexDataGridRowIndexForColumns);
+
+			    ExternalInterface.addCallback("getFlexDataGridRowDataForRowIndex",
+						dataGridCommands.getFlexDataGridRowDataForRowIndex);
 						
 				ExternalInterface.addCallback("getFlexDataGridValues",
 						dataGridCommands.getFlexDataGridValues);
@@ -209,12 +215,27 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("doFlexWaitForElement", 
 						waitCommands.doFlexWaitForElement);
-						
-				ExternalInterface.addCallback("doFlexTypeAppend", 
+
+			    ExternalInterface.addCallback("getFlexElement",
+						waitCommands.getFlexElement);
+
+				ExternalInterface.addCallback("doFlexTypeAppend",
 						textCommands.doFlexTypeAppend);
 						
 				ExternalInterface.addCallback("doFlexType", 
 						textCommands.doFlexType);
+
+                ExternalInterface.addCallback("doFlexHighlightElement",
+						textCommands.doFlexHighlightElement);
+
+				ExternalInterface.addCallback("doFlexHighlightGrid",
+						textCommands.doFlexHighlightGrid);
+
+				ExternalInterface.addCallback("doFlexUnHighlightGrid",
+						textCommands.doFlexUnHighlightGrid);
+
+				ExternalInterface.addCallback("doFlexUnHighlightElement",
+						textCommands.doFlexUnHighlightElement);
 						
 				ExternalInterface.addCallback("doFlexStepper", 
 						stepperCommands.doFlexStepper);
@@ -228,7 +249,7 @@ package sfapi.commands
 				ExternalInterface.addCallback("doFlexSelectMatchingOnField", 
 						selectCommands.doFlexSelectMatchingOnField);
 						
-				ExternalInterface.addCallback("doFlexSelectTreeItem", 
+				ExternalInterface.addCallback("doFlexSelectTreeItem",
 						selectCommands.doFlexSelectTreeItem);
 						
 				ExternalInterface.addCallback("doFlexClickSelectedDataGridItem", 
@@ -251,8 +272,8 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("doFlexRefreshIDToolTips", 
 						utilCommands.doFlexRefreshIDToolTips);
-						
-				ExternalInterface.addCallback("doFlexRadioButton", 
+
+				ExternalInterface.addCallback("doFlexRadioButton",
 						radioButtonCommands.doFlexRadioButton);
 						
 				ExternalInterface.addCallback("doFlexProperty", 
@@ -287,8 +308,8 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("doFlexDoubleClick", 
 						clickCommands.doFlexDoubleClick);
-						
-				ExternalInterface.addCallback("doFlexDate", 
+
+				ExternalInterface.addCallback("doFlexDate",
 						dateCommands.doFlexDate);
 						
 				ExternalInterface.addCallback("doFlexClickMenuBarUIComponent", 
@@ -305,6 +326,9 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("doFlexCheckBox", 
 						checkBoxCommands.doFlexCheckBox);
+
+				ExternalInterface.addCallback("doFlexSelectAllDataGridCheckBox",
+						checkBoxCommands.doFlexSelectAllDataGridCheckBox);
 						
 				ExternalInterface.addCallback("doFlexAlertResponse", 
 						alertCommands.doFlexAlertResponse);
@@ -326,7 +350,7 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("doFlexDoubleClickDataGridUIComponent",
 						clickCommands.doFlexDoubleClickDataGridUIComponent);
-						
+
 				ExternalInterface.addCallback("doFlexDataGridDate",
 						dataGridCommands.doFlexDataGridDate);
 						
@@ -388,7 +412,10 @@ package sfapi.commands
 						
 				ExternalInterface.addCallback("rawFlexGlobalPosition", 
 						propertyCommands.rawFlexGlobalPosition);
-						
+
+                ExternalInterface.addCallback("doFlexClickMenuItem",
+						selectCommands.doFlexClickMenuItem);
+
 				ExternalInterface.addCallback("rawFlexSelectMatchingOnField",
 						selectCommands.rawFlexSelectMatchingOnField);
 						

@@ -51,6 +51,21 @@ package sfapi.commands
 
 			return rawFlexCheckBox(child, args);
 		}
+
+        public function doFlexSelectAllDataGridCheckBox(target:String, args:String):String
+		{
+			var child:Object = appTreeParser.getElement(target);
+			if (child == null)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [target]);
+			}
+			var item:Object;
+            if(child.hasOwnProperty("numChildren"))
+                {
+                    item = child.getChildAt(1);
+                }
+            return rawFlexCheckBox(item, args);
+		}
 		
 		/**
 		 * Change the check state of a checkbox to checked or unchecked

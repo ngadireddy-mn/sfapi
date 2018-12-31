@@ -59,6 +59,130 @@ package sfapi.commands
 			}
 			return null;
 		}
+
+        public function doFlexHighlightElement(id:String):String
+   		{
+   		    try
+   		    {
+                var child:Object = appTreeParser.getElement(id);
+                if(child == null)
+                {
+                    return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+                }
+                var type:String = Tools.getObjectType(child);
+                if(type === ReferenceData.BUTTON_DESCRIPTION || type === ReferenceData.COMBO_BOX_DESCRIPTION
+                || type === ReferenceData.ADVANCED_COMBO_BOX || type === ReferenceData.CMNBUTTON_DESCRIPTION
+                || type === ReferenceData.CMNPOPUP_BUTTON_DESCRIPTION)
+                {
+                    child.setStyle("color","0x0000FF");
+                    child.setStyle("fontWeight","bold");
+                }
+                child.setFocus();
+                child.setStyle("borderColor",0x0000FF);
+                child.setStyle("borderStyle","solid");
+                child.setStyle("borderThickness","2");
+   			}
+            catch(e:Error)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_MESSAGE, [e.toString()]);
+			}
+   			return 'true';
+   		}
+
+        public function doFlexHighlightGrid(id:String, rowIdx:String, colIdx:String):String
+   		{
+   		    try
+   		    {
+                var rowIndex:int = parseInt(rowIdx);
+   		        var colIndex:int = parseInt(colIdx);
+                var child:Object = appTreeParser.getElement(id);
+                if(child == null)
+                {
+                    return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+                }
+            // Assumes the DataGrid has only one ListBaseContentHolder
+			var dgContentList:Object = Tools.getChildrenOfTypeFromContainer(child,
+					ReferenceData.LISTBASECONTENTHOLDER_DESCRIPTION)[0];
+
+			// Make certain the rowIndex and colIndex do not exceed the length of the
+			// Datagrid ListBaseContentHolders rows and columns.
+			if(dgContentList.listItems.length > int(rowIndex) &&
+					dgContentList.listItems[int(rowIndex)].length > int(colIndex))
+			{
+				var cell:Object = dgContentList.listItems[int(rowIndex)][int(colIndex)];
+				cell.setStyle("borderColor",0x0000FF);
+                cell.setStyle("borderStyle","solid");
+                cell.setStyle("borderThickness","2");
+			}
+   			}
+            catch(e:Error)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_MESSAGE, [e.toString()]);
+			}
+   			return 'true';
+   		}
+
+        public function doFlexUnHighlightGrid(id:String, rowIdx:String, colIdx:String):String
+   		{
+   		    try
+   		    {
+   		        var rowIndex:int = parseInt(rowIdx);
+   		        var colIndex:int = parseInt(colIdx);
+                var child:Object = appTreeParser.getElement(id);
+                if(child == null)
+                {
+                    return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+                }
+            // Assumes the DataGrid has only one ListBaseContentHolder
+			var dgContentList:Object = Tools.getChildrenOfTypeFromContainer(child,
+					ReferenceData.LISTBASECONTENTHOLDER_DESCRIPTION)[0];
+
+			// Make certain the rowIndex and colIndex do not exceed the length of the
+			// Datagrid ListBaseContentHolders rows and columns.
+			if(dgContentList.listItems.length > int(rowIndex) &&
+					dgContentList.listItems[int(rowIndex)].length > int(colIndex))
+			{
+				var cell:Object = dgContentList.listItems[int(rowIndex)][int(colIndex)];
+                cell.setStyle("borderColor",0xB7BABC);
+   			    cell.setStyle("borderStyle","none");
+   			    cell.setStyle("borderThickness","1");
+			}
+   			}
+            catch(e:Error)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_MESSAGE, [e.toString()]);
+			}
+   			return 'true';
+   		}
+
+        public function doFlexUnHighlightElement(id:String):String
+   		{
+   			try
+            {
+                var child:Object = appTreeParser.getElement(id);
+                if(child == null)
+                {
+                    return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+                }
+                var type:String = Tools.getObjectType(child);
+                if(type === ReferenceData.BUTTON_DESCRIPTION || type === ReferenceData.COMBO_BOX_DESCRIPTION
+                || type === ReferenceData.ADVANCED_COMBO_BOX || type === ReferenceData.CMNBUTTON_DESCRIPTION
+                || type === ReferenceData.CMNPOPUP_BUTTON_DESCRIPTION)
+                {
+                    child.setStyle("color","0x0B333C");
+                    child.setStyle("fontWeight","normal");
+                }
+                child.setFocus();
+   			    child.setStyle("borderColor",0xB7BABC);
+   			    child.setStyle("borderStyle","none");
+   			    child.setStyle("borderThickness","1");
+   			}
+            catch(e:Error)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_MESSAGE, [e.toString()]);
+			}
+   			return 'true';
+   		}
 		
 		/**
 		 * Type some text in a TextInput control appending it to the test in the control

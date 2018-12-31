@@ -82,5 +82,23 @@ package sfapi.commands
 			}
 			return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
 		}
+
+		public function getFlexElement(id:String):String
+        {
+        	try
+        	{
+        		var child:Object = appTreeParser.getElement(id);
+        		if(child)
+        		{
+        			return 'true';
+        		}
+        		return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+        	}
+            catch (e:Error)
+			{
+				return ErrorMessages.getError(ErrorMessages.ERROR_ELEMENT_NOT_FOUND, [id]);
+			}
+			return 'true';
+        }
 	}
 }
